@@ -1,16 +1,7 @@
-import express from "express";
-import { config } from "dotenv";
 import { PrismaClient } from "@prisma/client";
+import app from "./app";
 
 export const prisma = new PrismaClient();
-
-config();
-
-const app = express();
-
-app.get("/", (req, res) => {
-  res.send("Welcome to Unifyr");
-});
 
 const port = process.env.PORT;
 
