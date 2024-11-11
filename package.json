@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\" ",
     "build": "prisma generate && tsc",
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/index.js",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
