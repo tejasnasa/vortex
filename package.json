@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\" ",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "nodemon dist/index.js"
   },
   "keywords": [],
