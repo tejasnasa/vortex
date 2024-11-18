@@ -1,24 +1,32 @@
 import express from "express";
 import { config } from "dotenv";
-import { PrismaClient } from "@prisma/client";
+import cors from "cors";
+import morgan from "morgan";
 import masterRouter from "./routes/masterRouter";
 
 config();
 
 const app = express();
-const prisma = new PrismaClient();
+
+app.use(express.json());
+app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 app.use("/v1", masterRouter);
 
-app.use(async (req, res, next) => {
-  try {
-    await prisma.$connect();
-    console.log("Connected to the database.");
-    next();
-  } catch (error) {
-    console.error("Database connection error:", error);
-    res.status(500).send("Database connection error");
-  }
+app.get("/", (req, res) => {
+  res.send("Insta Clone");
 });
 
-export { app, prisma };
+app.get("/profile", (req, res) => {
+  res.send("Insta Clone Profile Page");
+});
+
+export default app;
