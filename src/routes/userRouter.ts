@@ -12,7 +12,6 @@ userRouter.get("/profile/:id", profile);
 userRouter.post("/follow/:id", followUser)
 userRouter.post("/unfollow/:id", unfollowUser)
 userRouter.get("/self", getPersonalDetails)
-userRouter.patch("/selfEdit")
-userRouter.patch("/password")
+userRouter.patch("/editProfile")
 
 export default userRouter;

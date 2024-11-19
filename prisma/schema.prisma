@@ -14,11 +14,96 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid()) @unique
-  email       String   @unique
-  password    String
-  name        String
-  created_at  DateTime @default(now())
+  id        String    @id @default(uuid()) @unique
+  username  String    @unique
+  fullname  String    
+  email     String    @unique
+  password  String    @default(uuid())
+  avatar    String?   @default("https://i.imgur.com/V4RclNb.png")
+  bio       String?   @default("")
+  followers Follow[]  @relation("UserFollowing")
+  following Follow[]  @relation("UserFollowers")
+  posts     Post[]
+  comments  Comment[]
+  postlikes PostLike[]
+  commlikes CommentLike[]
+  bookmarks Bookmark[]
 
-  @@map("users")
+  @@map ("users")
+}
+
+model Post {
+  id          String      @id @default(uuid()) @unique
+  userid      String 
+  user        User        @relation(fields: [userid], references: [id])
+  caption     String?
+  imageurl    String?
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+  likes       PostLike[]
+  comments    Comment[]
+  bookmarks   Bookmark[]
+
+  @@map ("posts")
+}
+
+model PostLike {
+  id      String   @id @default(uuid()) @unique
+  userid  String 
+  postid  String 
+  user    User  @relation(fields: [userid], references: [id])
+  post    Post  @relation(fields: [postid], references: [id])
+
+  @@unique([userid, postid]) 
+
+  @@map ("post_likes")
+}
+
+model Comment {
+  id          String        @id @default(uuid()) @unique
+  userid      String 
+  postid      String 
+  text        String
+  created_at  DateTime      @default(now())
+  likes       CommentLike[]  
+  user        User          @relation(fields: [userid], references: [id])
+  post        Post          @relation(fields: [postid], references: [id])
+
+  @@map ("comments")
+}
+
+model CommentLike {
+  id        String    @id @default(uuid()) @unique
+  userid    String 
+  commid    String 
+  user      User      @relation(fields: [userid], references: [id])
+  comment   Comment   @relation(fields: [commid], references: [id])
+
+  @@unique([userid, commid]) 
+
+  @@map ("comment_likes")
+}
+
+model Bookmark {
+  id      String   @id @default(uuid()) @unique
+  userid  String 
+  postid  String 
+  user    User  @relation(fields: [userid], references: [id])
+  post    Post  @relation(fields: [postid], references: [id])
+
+  @@unique([userid, postid]) 
+
+  @@map ("bookmarks")
+}
+
+model Follow {
+  id              String    @id @default(uuid())
+  followerid      String 
+  followingid     String 
+  follower        User      @relation("UserFollowers", fields: [followerid], references: [id])
+  following       User      @relation("UserFollowing", fields: [followingid], references: [id])
+
+  @@unique([followerid, followingid])
+
+  @@map ("follows")
 }
