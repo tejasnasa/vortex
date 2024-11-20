@@ -7,10 +7,10 @@ import {
   createFirebaseUser,
   deleteFirebaseUser,
   pollEmailVerification,
-} from "./firebaseControllers";
+} from "../../utils/firebaseControllers";
 
 const register = async (req: Request, res: Response): Promise<void> => {
-  const { email, password, username, fullname, avatar, bio } = req.body;
+  const { email, password, username, fullname} = req.body;
 
   try {
     const existingUser = await prisma.user.findFirst({
@@ -42,8 +42,6 @@ const register = async (req: Request, res: Response): Promise<void> => {
           password: hashedPassword,
           username,
           fullname,
-          avatar,
-          bio,
         },
       });
 

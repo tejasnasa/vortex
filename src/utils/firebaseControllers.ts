@@ -4,7 +4,7 @@ import {
   deleteUser,
   getAuth,
 } from "firebase/auth";
-import { firebaseApp } from "../../utils/firebaseConfig";
+import { firebaseApp } from "./firebaseConfig";
 
 const auth = getAuth(firebaseApp);
 
