@@ -3,12 +3,12 @@ import { ServiceResponse } from "../../models/serviceResponse";
 import { prisma } from "../../index";
  
 const deletePost = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { postid } = req.params;
 
   try {
     const post = await prisma.post.findUnique({
       where: {
-        id: id,
+        id: postid,
       },
     });
 
@@ -19,7 +19,7 @@ const deletePost = async (req: Request, res: Response) => {
 
     await prisma.post.delete({
       where: {
-        id: id,
+        id: postid,
       },
     });
 

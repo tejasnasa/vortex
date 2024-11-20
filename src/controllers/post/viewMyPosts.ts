@@ -2,17 +2,28 @@ import { Request, Response } from "express";
 import { ServiceResponse } from "../../models/serviceResponse";
 import { prisma } from "../../index";
 
-const viewAllPosts = async (req: Request, res: Response) => {
+const viewMyPosts = async (req: Request, res: Response) => {
+  const { userid } = req.body.user;
+
   try {
     const posts = await prisma.post.findMany({
-      include: {
+      where: {
         user: {
-          select: {
-            username: true,
-            avatar: true,
+          followers: {
+            some: {
+              followerid: userid,
+            },
           },
         },
+      },
+      include: {
+        user: true,
         likes: true,
+        comments: true,
+        bookmarks: true,
+      },
+      orderBy: {
+        created_at: "desc",
       },
     });
 
@@ -25,4 +36,4 @@ const viewAllPosts = async (req: Request, res: Response) => {
   }
 };
 
-export default viewAllPosts;
+export default viewMyPosts;
