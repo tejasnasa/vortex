@@ -4,13 +4,16 @@ import { prisma } from "../../index";
 import { createToken } from "../../utils/jwtConfig";
 import { ServiceResponse } from "../../models/serviceResponse";
 import {
-  createFirebaseUser,
-  deleteFirebaseUser,
-  pollEmailVerification,
-} from "../../utils/firebaseControllers";
+  createUserWithEmailAndPassword,
+  deleteUser,
+  getAuth,
+  sendEmailVerification,
+} from "firebase/auth";
+import { firebaseApp } from "../../utils/firebaseConfig";
 
 const register = async (req: Request, res: Response): Promise<void> => {
-  const { email, password, username, fullname} = req.body;
+  const { email, password, username, fullname } = req.body;
+  const auth = getAuth(firebaseApp);
 
   try {
     const existingUser = await prisma.user.findFirst({
@@ -30,36 +33,51 @@ const register = async (req: Request, res: Response): Promise<void> => {
 
     const hashedPassword = await hash(password, 10);
 
-    const firebaseUser = await createFirebaseUser(email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const firebaseUser = userCredential.user;
+    await sendEmailVerification(firebaseUser);
     console.log("Email sent!");
 
-    const verified = await pollEmailVerification(firebaseUser);
+    const maxAttempts = 6;
+    const pollInterval = 9600;
+    let attempts = 0;
 
-    if (verified) {
-      const newUser = await prisma.user.create({
-        data: {
-          email,
-          password: hashedPassword,
-          username,
-          fullname,
-        },
-      });
+    while (attempts < maxAttempts) {
+      await new Promise((resolve) => setTimeout(resolve, pollInterval));
+      await firebaseUser.reload();
 
-      const token = createToken({
-        userid: newUser.id,
-      });
-      await deleteFirebaseUser(firebaseUser);
+      if (firebaseUser.emailVerified) {
+        const newUser = await prisma.user.create({
+          data: {
+            email,
+            password: hashedPassword,
+            username,
+            fullname,
+          },
+        });
 
-      res.status(201).json(
-        ServiceResponse.create("User created successfully", {
-          accessToken: token,
-          user: newUser,
-        })
-      );
-      return;
+        const token = createToken({
+          userid: newUser.id,
+        });
+        await deleteUser(firebaseUser);
+
+        res.status(201).json(
+          ServiceResponse.create("User created successfully", {
+            accessToken: token,
+            user: newUser,
+          })
+        );
+        return;
+      }
+
+      attempts++;
     }
 
-    await deleteFirebaseUser(firebaseUser);
+    await deleteUser(firebaseUser);
     res
       .status(400)
       .json(ServiceResponse.badrequest("Verification not completed."));
