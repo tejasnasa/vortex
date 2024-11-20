@@ -4,7 +4,7 @@ import { compare } from "bcrypt";
 import { createToken } from "../../utils/jwtConfig";
 import { ServiceResponse } from "../../models/serviceResponse";
 
-export const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response) => {
   const { usernameOrEmail, password } = req.body;
 
   try {
@@ -43,3 +43,5 @@ export const login = async (req: Request, res: Response) => {
     return;
   }
 };
+
+export default login;

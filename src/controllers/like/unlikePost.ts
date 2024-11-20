@@ -7,7 +7,7 @@ const unlikePost = async (req: Request, res: Response) => {
   const { userid } = req.body.user;
 
   try {
-    const existingLike = await prisma.like.findUnique({
+    const existingLike = await prisma.postLike.findUnique({
       where: {
         userid_postid: {
           userid: userid,
@@ -22,7 +22,7 @@ const unlikePost = async (req: Request, res: Response) => {
         .json(ServiceResponse.failed("You have not liked this post"));
     }
 
-    await prisma.like.delete({
+    await prisma.postLike.delete({
       where: {
         id: existingLike.id,
       },

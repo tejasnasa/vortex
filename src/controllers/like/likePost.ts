@@ -7,7 +7,7 @@ const likePost = async (req: Request, res: Response) => {
   const { userid } = req.body.user;
 
   try {
-    const existingLike = await prisma.like.findUnique({
+    const existingLike = await prisma.postLike.findUnique({
       where: {
         userid_postid: {
           userid: userid,
@@ -23,7 +23,7 @@ const likePost = async (req: Request, res: Response) => {
       return;
     }
 
-    const newLike = await prisma.like.create({
+    const newLike = await prisma.postLike.create({
       data: {
         userid: userid,
         postid: postid,
