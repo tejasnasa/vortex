@@ -48,11 +48,12 @@ model Post {
 }
 
 model PostLike {
-  id      String   @id @default(uuid()) @unique
-  userid  String 
-  postid  String 
-  user    User  @relation(fields: [userid], references: [id])
-  post    Post  @relation(fields: [postid], references: [id])
+  id          String    @id @default(uuid()) @unique
+  userid      String 
+  postid      String 
+  created_at  DateTime  @default(now())
+  user        User      @relation(fields: [userid], references: [id])
+  post        Post      @relation(fields: [postid], references: [id])
 
   @@unique([userid, postid]) 
 
@@ -73,11 +74,12 @@ model Comment {
 }
 
 model CommentLike {
-  id        String    @id @default(uuid()) @unique
-  userid    String 
-  commid    String 
-  user      User      @relation(fields: [userid], references: [id])
-  comment   Comment   @relation(fields: [commid], references: [id])
+  id          String    @id @default(uuid()) @unique
+  userid      String 
+  commid      String 
+  created_at  DateTime  @default(now())
+  user        User      @relation(fields: [userid], references: [id])
+  comment     Comment   @relation(fields: [commid], references: [id])
 
   @@unique([userid, commid]) 
 
@@ -85,11 +87,12 @@ model CommentLike {
 }
 
 model Bookmark {
-  id      String   @id @default(uuid()) @unique
-  userid  String 
-  postid  String 
-  user    User  @relation(fields: [userid], references: [id])
-  post    Post  @relation(fields: [postid], references: [id])
+  id          String    @id @default(uuid()) @unique
+  userid      String 
+  postid      String 
+  created_at  DateTime  @default(now())
+  user        User      @relation(fields: [userid], references: [id])
+  post        Post      @relation(fields: [postid], references: [id])
 
   @@unique([userid, postid]) 
 
@@ -100,6 +103,7 @@ model Follow {
   id              String    @id @default(uuid())
   followerid      String 
   followingid     String 
+  created_at      DateTime  @default(now())
   follower        User      @relation("UserFollowers", fields: [followerid], references: [id])
   following       User      @relation("UserFollowing", fields: [followingid], references: [id])
 

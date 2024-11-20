@@ -6,7 +6,6 @@ const createComment = async (req: Request, res: Response) => {
   const { text } = req.body;
   const { userid } = req.body.user;
   const { postid } = req.params;
-  console.log(userid);
 
   try {
     const post = await prisma.post.findUnique({

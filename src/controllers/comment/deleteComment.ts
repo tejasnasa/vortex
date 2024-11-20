@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { ServiceResponse } from "../../models/serviceResponse";
 import { prisma } from "../../index";
- 
+
 const deleteComment = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { commid } = req.params;
 
   try {
     const comment = await prisma.comment.findUnique({
       where: {
-        id: id,
+        id: commid,
       },
     });
 
@@ -19,7 +19,7 @@ const deleteComment = async (req: Request, res: Response) => {
 
     await prisma.comment.delete({
       where: {
-        id: id,
+        id: commid,
       },
     });
 

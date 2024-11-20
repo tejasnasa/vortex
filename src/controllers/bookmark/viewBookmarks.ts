@@ -3,10 +3,18 @@ import { ServiceResponse } from "../../models/serviceResponse";
 import { prisma } from "../../index";
 
 const viewBookmarks = async (req: Request, res: Response) => {
+  const {userid} = req.body.user;
+  
   try {
     const bookmarks = await prisma.bookmark.findMany({
+      where: {
+        userid: userid,
+      },
       include: {
         post: true,
+      },
+      orderBy: {
+        created_at: "desc",
       },
     });
 
