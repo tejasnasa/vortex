@@ -80,7 +80,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
     await deleteUser(firebaseUser);
     res
       .status(400)
-      .json(ServiceResponse.badrequest("Verification not completed."));
+      .json(ServiceResponse.badrequest("Email verification not completed."));
     return;
   } catch (error) {
     console.log(error);

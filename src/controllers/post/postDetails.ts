@@ -10,31 +10,42 @@ const postDetails = async (req: Request, res: Response) => {
       where: {
         id: postid,
       },
-      include: {
+      select: {
+        id: true,
+        caption: true,
+        imageurl: true,
+        created_at: true,
+        updated_at: true,
         user: {
           select: {
+            id: true,
             username: true,
+            fullname: true,
             avatar: true,
           },
         },
         comments: {
-          include: {
+          select: {
+            text: true,
+            created_at: true,
             user: {
               select: {
+                id: true,
                 username: true,
+                fullname: true,
                 avatar: true,
+              },
+            },
+            _count: {
+              select: {
+                likes: true,
               },
             },
           },
         },
-        likes: {
-          include: {
-            user: {
-              select: {
-                username: true,
-                avatar: true,
-              },
-            },
+        _count: {
+          select: {
+            bookmarks: true,
           },
         },
       },

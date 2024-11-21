@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { loginSchema } from "./validationSchemas";
+import { googleLoginSchema, loginSchema } from "./validationSchemas";
 import { z } from "zod";
 import { ServiceResponse } from "../models/serviceResponse";
 
 const validateGoogleLogin = (req: Request, res: Response, next: NextFunction) => {
   try {
-    loginSchema.parse(req.body);
+    googleLoginSchema.parse(req.body);
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {

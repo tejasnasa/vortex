@@ -5,8 +5,8 @@ import viewBookmarks from "../controllers/bookmark/viewBookmarks";
 
 const bookmarkRouter = express.Router();
 
-bookmarkRouter.post("/post/:id", bookmarkPost);
-bookmarkRouter.delete("/post/:id", unbookmarkPost);
-bookmarkRouter.get("/all", viewBookmarks);
+bookmarkRouter.post("/post/:postid", bookmarkPost);
+bookmarkRouter.delete("/post/:postid", unbookmarkPost);
+bookmarkRouter.get("/", viewBookmarks);
 
 export default bookmarkRouter; 

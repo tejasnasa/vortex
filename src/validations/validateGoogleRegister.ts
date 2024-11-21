@@ -1,11 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import { loginSchema } from "./validationSchemas";
+import { googleRegisterSchema, loginSchema } from "./validationSchemas";
 import { z } from "zod";
 import { ServiceResponse } from "../models/serviceResponse";
 
-const validateGoogleRegister = (req: Request, res: Response, next: NextFunction) => {
+const validateGoogleRegister = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    loginSchema.parse(req.body);
+    googleRegisterSchema.parse(req.body);
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {

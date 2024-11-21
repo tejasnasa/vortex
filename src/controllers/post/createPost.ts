@@ -26,7 +26,7 @@ const createPost = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(201).json(ServiceResponse.create("Post created", post));
+    res.status(201).json(ServiceResponse.create("Post created"));
     return;
   } catch (error) {
     console.log(error);

@@ -11,7 +11,7 @@ const postRouter = express.Router();
 postRouter.get("/viewMy", viewMyPosts);
 postRouter.get("/viewTrending", viewTrendingPosts);
 postRouter.post("/create", createPost);
-postRouter.get("/post/:postid", postDetails);
+postRouter.get("/details/:postid", postDetails);
 postRouter.patch("/modify/:postid", editPost);
 postRouter.delete("/delete/:postid", deletePost);
 

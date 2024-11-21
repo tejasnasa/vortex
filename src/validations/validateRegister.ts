@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { loginSchema } from "./validationSchemas";
+import { registerSchema } from "./validationSchemas";
 import { z } from "zod";
 import { ServiceResponse } from "../models/serviceResponse";
 
 const validateRegister = (req: Request, res: Response, next: NextFunction) => {
   try {
-    loginSchema.parse(req.body);
+    registerSchema.parse(req.body);
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {
