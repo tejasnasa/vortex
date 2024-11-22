@@ -26,6 +26,7 @@ const viewMyPosts = async (req: Request, res: Response) => {
             username: true,
             fullname: true,
             avatar: true,
+            id: true,
           },
         },
         _count: {

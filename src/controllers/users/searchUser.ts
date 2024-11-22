@@ -3,20 +3,20 @@ import { prisma } from "../../index";
 import { ServiceResponse } from "../../models/serviceResponse";
 
 const searchUser = async (req: Request, res: Response) => {
-  const { query } = req.body;
+  const { user } = req.query;
   try {
-    if (!query || typeof query !== "string") {
+    if (!user || typeof user !== "string") {
       res
         .status(400)
-        .json(ServiceResponse.failed("Invalid or missing search query"));
+        .json(ServiceResponse.badrequest("Invalid or missing search query"));
       return;
     }
 
     const users = await prisma.user.findMany({
       where: {
         OR: [
-          { username: { contains: query, mode: "insensitive" } },
-          { fullname: { contains: query, mode: "insensitive" } },
+          { username: { contains: user, mode: "insensitive" } },
+          { fullname: { contains: user, mode: "insensitive" } },
         ],
       },
       select: {

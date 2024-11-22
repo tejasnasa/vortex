@@ -17,7 +17,7 @@ const editPassword = async (req: Request, res: Response) => {
       return;
     }
 
-    const isPasswordCorrect = await compare(user.password, oldPassword);
+    const isPasswordCorrect = await compare(oldPassword, user.password);
 
     if (!isPasswordCorrect) {
       res.status(401).json(ServiceResponse.unauthorized("Invalid password"));
@@ -25,12 +25,12 @@ const editPassword = async (req: Request, res: Response) => {
     }
 
     if (newPassword1 !== newPassword2) {
-      res.status(400).json(ServiceResponse.failed("Passwords do not match"));
+      res.status(400).json(ServiceResponse.unauthorized("Passwords do not match"));
       return;
     }
 
     if (newPassword1 === oldPassword) {
-      res.status(400).json(ServiceResponse.failed("New password is same"));
+      res.status(400).json(ServiceResponse.unauthorized("New password is same"));
       return;
     }
 

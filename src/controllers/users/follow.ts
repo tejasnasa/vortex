@@ -10,7 +10,7 @@ const followUser = async (req: Request, res: Response) => {
     if (followerId === followingId) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You cannot follow yourself"));
+        .json(ServiceResponse.unauthorized("You cannot follow yourself"));
       return;
     }
 

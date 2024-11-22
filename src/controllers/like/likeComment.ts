@@ -18,8 +18,8 @@ const likeComment = async (req: Request, res: Response) => {
 
     if (existingLike) {
       res
-        .status(400)
-        .json(ServiceResponse.failed("You have already liked this comment"));
+        .status(401)
+        .json(ServiceResponse.unauthorized("You have already liked this comment"));
       return;
     }
 

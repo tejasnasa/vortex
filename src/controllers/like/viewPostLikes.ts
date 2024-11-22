@@ -15,10 +15,10 @@ const viewPostLikes = async (req: Request, res: Response) => {
       },
       orderBy: {
         created_at: "desc",
-      },
+      },  
     });
 
-    res.status(200).json(ServiceResponse.success("Likes successfully fetched"))
+    res.status(200).json(ServiceResponse.success("Likes successfully fetched", likes))
   } catch (error) {
     console.log(error);
     res.status(500).json(ServiceResponse.failed("Internal server error"));

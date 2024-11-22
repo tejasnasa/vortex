@@ -19,7 +19,7 @@ const unfollowUser = async (req: Request, res: Response) => {
     if (!existingFollow) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You are not following this user"));
+        .json(ServiceResponse.unauthorized("You are not following this user"));
     }
 
     await prisma.follow.delete({

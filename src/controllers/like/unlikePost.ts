@@ -35,4 +35,4 @@ const unlikePost = async (req: Request, res: Response) => {
   }
 };
 
-export default unlikePost;
+export default unlikePost; 

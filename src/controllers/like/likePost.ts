@@ -17,9 +17,9 @@ const likePost = async (req: Request, res: Response) => {
     });
 
     if (existingLike) {
-      res
+      res 
         .status(400)
-        .json(ServiceResponse.failed("You have already liked this post"));
+        .json(ServiceResponse.unauthorized("You have already liked this post"));
       return;
     }
 

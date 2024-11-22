@@ -7,6 +7,6 @@ const commentRouter = express.Router();
 
 commentRouter.post("/post/:postid", createComment);
 commentRouter.delete("/post/:commid", deleteComment);
-commentRouter.get("/all", viewComments);
+commentRouter.get("/", viewComments);
 
 export default commentRouter;

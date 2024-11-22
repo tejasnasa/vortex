@@ -18,8 +18,8 @@ const unlikeComment = async (req: Request, res: Response) => {
 
     if (!existingLike) {
       res
-        .status(400)
-        .json(ServiceResponse.failed("You have not liked this comment"));
+        .status(401)
+        .json(ServiceResponse.unauthorized("You have not liked this comment"));
     }
 
     await prisma.commentLike.delete({
