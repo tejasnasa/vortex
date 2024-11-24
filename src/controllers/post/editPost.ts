@@ -13,15 +13,15 @@ const editPost = async (req: Request, res: Response) => {
     });
 
     if (!post) {
-      res.status(404).json(ServiceResponse.failed("Post not found"));
+      res.status(404).json(ServiceResponse.notFound("Post not found"));
       return;
     }
 
     if (post.userid !== userid) {
       res
-        .status(400)
+        .status(401)
         .json(
-          ServiceResponse.failed("You are not authorized to edit this post")
+          ServiceResponse.unauthorized("You are not authorized to edit this post")
         );
       return;
     }

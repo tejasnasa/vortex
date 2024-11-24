@@ -12,6 +12,7 @@ const viewComments = async (req: Request, res: Response) => {
       },
       include: {
         post: true,
+        likes: true,
       },
       orderBy: {
         created_at: "desc",

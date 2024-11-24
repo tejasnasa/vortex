@@ -19,8 +19,8 @@ const unlikePost = async (req: Request, res: Response) => {
     if (!existingLike) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You have not liked this post"));
-    } 
+        .json(ServiceResponse.unauthorized("You have not liked this post"));
+    }
 
     await prisma.postLike.delete({
       where: {
@@ -35,4 +35,4 @@ const unlikePost = async (req: Request, res: Response) => {
   }
 };
 
-export default unlikePost; 
+export default unlikePost;

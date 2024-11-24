@@ -14,8 +14,8 @@ const editProfile = async (req: Request, res: Response) => {
 
       if (existingUser && existingUser.id !== userid) {
         res
-          .status(400)
-          .json(ServiceResponse.failed("Username is already taken"));
+          .status(401)
+          .json(ServiceResponse.unauthorized("Username is already taken"));
         return;
       }
     }

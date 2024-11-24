@@ -26,7 +26,7 @@ const followUser = async (req: Request, res: Response) => {
     if (existingFollow) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You are already following this user"));
+        .json(ServiceResponse.unauthorized("You are already following this user"));
       return;
     }
 

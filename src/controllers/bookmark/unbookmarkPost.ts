@@ -19,7 +19,9 @@ const unbookmarkPost = async (req: Request, res: Response) => {
     if (!existingBookmark) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You have not bookmarked this post"));
+        .json(
+          ServiceResponse.unauthorized("You have not bookmarked this post")
+        );
     }
 
     await prisma.bookmark.delete({

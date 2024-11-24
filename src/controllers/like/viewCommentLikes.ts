@@ -11,15 +11,20 @@ const viewCommentLikes = async (req: Request, res: Response) => {
         userid: userid,
       },
       include: {
-        comment: true,
-        user: true,
+        comment: {
+          include: {
+            user: true,
+          },
+        },
       },
       orderBy: {
         created_at: "desc",
       },
     });
 
-    res.status(200).json(ServiceResponse.success("Likes successfully fetched", likes));
+    res
+      .status(200)
+      .json(ServiceResponse.success("Likes successfully fetched", likes));
   } catch (error) {
     console.log(error);
     res.status(500).json(ServiceResponse.failed("Internal server error"));

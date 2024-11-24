@@ -12,7 +12,7 @@ const createPost = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      res.status(404).json(ServiceResponse.failed("User not found"));
+      res.status(404).json(ServiceResponse.notFound("User not found"));
       return;
     }
 

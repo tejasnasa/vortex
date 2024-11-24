@@ -19,7 +19,7 @@ const bookmarkPost = async (req: Request, res: Response) => {
     if (existingBookmark) {
       res
         .status(400)
-        .json(ServiceResponse.failed("You have already bookmarked this post"));
+        .json(ServiceResponse.unauthorized("You have already bookmarked this post"));
       return;
     }
 
