@@ -14,20 +14,22 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) @unique
-  username  String    @unique
-  fullname  String    
-  email     String    @unique
-  password  String    @default(uuid())
-  avatar    String?   @default("https://i.imgur.com/V4RclNb.png")
-  bio       String?   @default("")
-  followers Follow[]  @relation("UserFollowing")
-  following Follow[]  @relation("UserFollowers")
-  posts     Post[]
-  comments  Comment[]
-  postlikes PostLike[]
-  commlikes CommentLike[]
-  bookmarks Bookmark[]
+  id          String    @id @default(uuid()) @unique
+  username    String    @unique
+  fullname    String    
+  private     Boolean   @default(false)
+  email       String    @unique
+  password    String    @default(uuid())
+  avatar      String?   @default("https://i.imgur.com/V4RclNb.png")
+  bio         String?   @default("")
+  followers   Follow[]  @relation("UserFollowing")
+  following   Follow[]  @relation("UserFollowers")
+  posts       Post[]
+  comments    Comment[]
+  postlikes   PostLike[]
+  commlikes   CommentLike[]
+  bookmarks   Bookmark[]
+  stories     Story[]
 
   @@map ("users")
 }
@@ -37,7 +39,7 @@ model Post {
   userid      String 
   user        User        @relation(fields: [userid], references: [id])
   caption     String?
-  imageurl    String?
+  imageurl    String[]
   created_at  DateTime    @default(now())
   updated_at  DateTime    @updatedAt
   likes       PostLike[]
@@ -110,4 +112,14 @@ model Follow {
   @@unique([followerid, followingid])
 
   @@map ("follows")
+}
+
+model Story {
+  id          String      @id @default(uuid()) @unique
+  userid      String 
+  user        User        @relation(fields: [userid], references: [id])
+  imageurl    String
+  created_at  DateTime    @default(now())
+
+  @@map ("stories")
 }
