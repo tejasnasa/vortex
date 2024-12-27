@@ -10,15 +10,16 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/v1", masterRouter);
 
 app.get("/", (req, res) => {
-  res.send("Insta Clone");
-});
-
-app.get("/profile", (req, res) => {
-  res.send("Insta Clone Profile Page");
+  res.send("Social Media API v1");
 });
 
 export default app;
