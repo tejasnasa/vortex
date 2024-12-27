@@ -26,6 +26,11 @@ const viewTrendingPosts = async (req: Request, res: Response) => {
             id: true,
           },
         },
+        likes: {
+          select: {
+            id: true,
+          },
+        },
         _count: {
           select: {
             likes: true,
