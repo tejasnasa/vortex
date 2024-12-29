@@ -6,14 +6,30 @@ const viewBookmarks = async (req: Request, res: Response) => {
   const { userid } = req.body.user;
 
   try {
-    const bookmarks = await prisma.bookmark.findMany({
+    const posts = await prisma.post.findMany({
       where: {
-        userid: userid,
+        bookmarks: {
+          some: {
+            userid: userid,
+          },
+        },
       },
       include: {
-        post: {
+        user: true,
+        likes: {
           include: {
             user: true,
+          },
+        },
+        bookmarks: {
+          include: {
+            user: true,
+          },
+        },
+        comments: {
+          include: {
+            user: true,
+            likes: true,
           },
         },
       },
@@ -24,7 +40,7 @@ const viewBookmarks = async (req: Request, res: Response) => {
 
     res
       .status(200)
-      .json(ServiceResponse.success("Bookmarks are shown", bookmarks));
+      .json(ServiceResponse.success("Bookmarks are shown", posts));
     return;
   } catch (error) {
     console.log(error);

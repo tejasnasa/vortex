@@ -16,31 +16,63 @@ const viewMyPosts = async (req: Request, res: Response) => {
           },
         },
       },
-      select: {
-        id: true,
-        caption: true,
-        imageurl: true,
-        created_at: true,
-        user: {
-          select: {
-            username: true,
-            fullname: true,
-            avatar: true,
-            id: true,
-          },
-        },
+      include: {
+        user: true,
         likes: {
-          select: {
-            id: true,
+          include: {
+            user: true,
           },
         },
-        _count: {
-          select: {
+        bookmarks: {
+          include: {
+            user: true,
+          },
+        },
+        comments: {
+          include: {
+            user: true,
             likes: true,
-            comments: true,
           },
         },
       },
+      // select: {
+      //   id: true,
+      //   caption: true,
+      //   imageurl: true,
+      //   created_at: true,
+      //   user: {
+      //     select: {
+      //       username: true,
+      //       fullname: true,
+      //       avatar: true,
+      //       id: true,
+      //     },
+      //   },
+      //   likes: {
+      //     include: {
+      //       user: {
+      //         select: {
+      //           id: true,
+      //         },
+      //       },
+      //     },
+      //   },
+      //   bookmarks: {
+      //     include: {
+      //       user: {
+      //         select: {
+      //           id: true,
+      //         },
+      //       },
+      //     },
+      //   },
+      //   _count: {
+      //     select: {
+      //       likes: true,
+      //       comments: true,
+      //     },
+      //   },
+      // },
       orderBy: {
         created_at: "desc",
       },

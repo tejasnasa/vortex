@@ -6,14 +6,30 @@ const viewPostLikes = async (req: Request, res: Response) => {
   const { userid } = req.body.user;
 
   try {
-    const likes = await prisma.postLike.findMany({
+    const posts = await prisma.post.findMany({
       where: {
-        userid: userid,
+        likes: {
+          some: {
+            userid: userid,
+          },
+        },
       },
       include: {
-        post: {
+        user: true,
+        likes: {
           include: {
             user: true,
+          },
+        },
+        bookmarks: {
+          include: {
+            user: true,
+          },
+        },
+        comments: {
+          include: {
+            user: true,
+            likes: true,
           },
         },
       },
@@ -24,7 +40,7 @@ const viewPostLikes = async (req: Request, res: Response) => {
 
     res
       .status(200)
-      .json(ServiceResponse.success("Likes successfully fetched", likes));
+      .json(ServiceResponse.success("Likes successfully fetched", posts));
   } catch (error) {
     console.log(error);
     res.status(500).json(ServiceResponse.failed("Internal server error"));

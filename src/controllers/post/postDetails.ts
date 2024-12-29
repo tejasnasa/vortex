@@ -12,18 +12,22 @@ const postDetails = async (req: Request, res: Response) => {
       },
       include: {
         user: true,
-        likes: true,
+        likes: {
+          include: {
+            user: true,
+          },
+        },
+        bookmarks: {
+          include: {
+            user: true,
+          },
+        },
         comments: {
           include: {
             user: true,
-            _count: {
-              select: {
-                likes: true,
-              },
-            },
+            likes: true,
           },
         },
-        bookmarks: true,
       },
     });
 
