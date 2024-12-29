@@ -3,27 +3,14 @@ import { ServiceResponse } from "../../models/serviceResponse";
 import { prisma } from "../../index";
 
 const editProfile = async (req: Request, res: Response) => {
-  const { username, bio, avatar } = req.body;
+  const { bio, avatar, isPrivate } = req.body;
   const { userid } = req.body.user;
 
   try {
-    if (username) {
-      const existingUser = await prisma.user.findUnique({
-        where: { username },
-      });
-
-      if (existingUser && existingUser.id !== userid) {
-        res
-          .status(401)
-          .json(ServiceResponse.unauthorized("Username is already taken"));
-        return;
-      }
-    }
-
     const updatedProfile = await prisma.user.update({
       where: { id: userid },
       data: {
-        username,
+        private: isPrivate,
         bio,
         avatar,
       },
