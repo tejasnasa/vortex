@@ -27,11 +27,6 @@ const searchUser = async (req: Request, res: Response) => {
       },
     });
 
-    if (users.length === 0) {
-      res.status(404).json(ServiceResponse.notFound("No users found"));
-      return;
-    }
-
     res.status(200).json(ServiceResponse.success("Users found", users));
   } catch (error) {
     console.error(error);

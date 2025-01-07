@@ -13,33 +13,22 @@ const viewTrendingPosts = async (req: Request, res: Response) => {
           gte: oneWeekAgo,
         },
       },
-      select: {
-        id: true,
-        caption: true,
-        imageurl: true,
-        created_at: true,
-        user: {
-          select: {
-            username: true,
-            fullname: true,
-            avatar: true,
-            id: true,
-          },
-        },
+      include: {
+        user: true,
         likes: {
-          select: {
-            id: true,
+          include: {
+            user: true,
           },
         },
         bookmarks: {
-          select: {
-            id: true,
+          include: {
+            user: true,
           },
         },
-        _count: {
-          select: {
+        comments: {
+          include: {
+            user: true,
             likes: true,
-            comments: true,
           },
         },
       },
