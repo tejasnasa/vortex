@@ -19,12 +19,13 @@ const searchUser = async (req: Request, res: Response) => {
           { fullname: { contains: user, mode: "insensitive" } },
         ],
       },
-      select: {
-        id: true,
-        username: true,
-        fullname: true,
-        avatar: true,
-      },
+      include: {
+        _count: {
+          select: {
+            followers: true,
+          }
+        }
+      }
     });
 
     res.status(200).json(ServiceResponse.success("Users found", users));

@@ -8,11 +8,6 @@ const viewTrendingPosts = async (req: Request, res: Response) => {
 
   try {
     const posts = await prisma.post.findMany({
-      where: {
-        created_at: {
-          gte: oneWeekAgo,
-        },
-      },
       include: {
         user: true,
         likes: {
