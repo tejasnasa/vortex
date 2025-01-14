@@ -25,7 +25,11 @@ const postDetails = async (req: Request, res: Response) => {
         comments: {
           include: {
             user: true,
-            likes: true,
+            likes: {
+              include: {
+                user: true,
+              },
+            },
           },
         },
       },
